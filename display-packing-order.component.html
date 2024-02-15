@@ -1,0 +1,103 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-center ">
+            <p class="fw-bold mt-3">{{this.PageTitle.toUpperCase()  }}</p>
+        </div>
+    </div>
+    <div class="col-12">
+    <div class="row">
+       
+        <div class="col-6">
+                Current Selected ID {{this.CurrentID}}
+        </div>
+         <div class="col-6">
+            
+                <a class=" btn btn-primary mb-3" href="AddPackingOrder">Add</a>
+        </div> 
+    
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sr.No</th>
+            <th>Order Number</th>
+            <th>Date</th>
+            <th>Employee Name</th>
+            <th>Product Desc</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let packing of this.packingDetails;let lblSrno=index">   
+            <td>
+                {{lblSrno + 1}}
+            </td>                
+            <td>
+                {{packing.OrderNumber}}
+            </td>
+            <td>
+                {{packing.Date}}
+            </td>
+
+            <td>
+                {{packing.EmployeeName}}
+            </td>       
+
+            <td>
+                {{packing.ProductName}}
+            </td>   
+            <td>
+                {{packing.Status}}
+            </td>  
+           <td>
+           
+            <button class=" btn btn-primary me-2" (click)="EditClick(packing.OrderNumber);" data-bs-toggle="modal" data-bs-target="#exampleModalCenterTitle">EDIT</button>
+        </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!------------------------------------------- Modal ---------------------------------------->
+
+<div class="modal fade" id="exampleModalCenterTitle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" (click)="GetDataFromDatabase();" >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-add-packing-order [EditID]="CurrentID"></app-add-packing-order>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

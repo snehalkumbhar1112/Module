@@ -1,0 +1,109 @@
+<div class="container-fluid mt-4">
+  <div class="col-12 my-4">
+    <p class="text-center fw-bold mt-3">{{title}}</p>
+  </div>
+  <div class="row">
+    <div class="col-4 form-group">
+        <label for="OrderNumber" class="col-sm-4 col-form-label">Order Number</label>
+        <input class="form-control" type="text" id="OrderNumber" name="OrderNumber" [(ngModel)]="this.objPackingEntry.OrderNumber">
+    </div>
+
+    <div class="col-4 form-group">
+      <label for="EmployeeName" class="col-sm-4 col-form-label">Employee Name</label>
+      <select class="form-control" type="text" id="EmployeeName" aria-label="Default select example" name="EmployeeName" [(ngModel)]="this.objPackingEntry.EmployeeName">
+        <option *ngFor="let item of EmployeeName " [value]="item.EmpName">{{item.EmpName}}</option>
+      </select>
+    </div>
+
+    <div class="col-4 form-group ">
+      <label class="col-sm-4 col-form-label">Order Date</label>
+      <input class="form-control" type="date" id="OrderDate" name="OrderDate" [(ngModel)]="this.objPackingEntry.OrderDate">
+    </div>
+
+
+    <div class="col-4 form-group">
+      <label class="col-sm-4 col-form-label"> Date</label>
+      <input class="form-control" type="date" id="Date" name="Date" [(ngModel)]="this.objPackingEntry.Date">
+    </div>
+
+    <div class="col-4 form-group">
+      <label for="FromLocation" class="col-sm-4 col-form-label">From Location</label>
+      <select class="form-control" type="text" id="FromLocation" aria-label="Default select example"name="SourceLocation" [(ngModel)]="this.objPackingEntry.FromLocation">
+        <option *ngFor="let item of SourceLocation " [value]="item.locationName">{{item.locationName}}</option>
+      </select>
+    </div>
+
+    <div class="col-4 form-group">
+      <label for="ToLocation" class="col-sm-4 col-form-label"> To Location</label>
+      <select class="form-control" type="text" id="ToLocation" aria-label="Default select example" name="ToLocation" [(ngModel)]="this.objPackingEntry.ToLocation">
+        <option *ngFor="let item of SourceLocation " [value]="item.locationName">{{item.locationName}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
+  <div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+      <div class="input-group">
+        <div class="row">
+          <div class="col-10">
+            <input type="text" class="form-control" placeholder="Enter Barcode Here" [(ngModel)]="this.InputBarcode" (keyup.enter)="Barcode();" >
+          </div>
+        </div>
+       <div>
+        <a class="btn btn-primary" type="button" href="Product">Add Products</a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sr.No</th>
+      <th>Barcode</th>
+      <th>Product Desc</th>
+      <th>Quantity</th>
+      <th>Accepted Quantity</th>
+      <th class="action">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of this.objPackingEntry.list">
+      <td>{{item.SrNo}}</td>
+
+      <td>
+        <input class="form-control" type="text" id="Barcode" name="Barcode" [(ngModel)]="item.Barcode">
+      </td>
+
+      <td>
+        <input class="form-control" type="text" id="ProductDesc" name="ProductDesc" [(ngModel)]="item.ProductDesc">
+      </td>
+
+      <td>
+        <input class="form-control" type="text" id="Quantity" name="Quantity" [(ngModel)]="item.Quantity">
+
+      </td>
+
+      <td>
+        <input class="form-control" type="text" id="AcceptedQty" name="AcceptedQty" [(ngModel)]="item.AcceptedQuantity">
+      </td>
+
+      <td class="action" id="remove" (click)="deleteRow();">
+        <i class="bi bi-x-circle"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle"
+          viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+        </svg>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-center my-4">
+  <button class="btn btn-primary  me-4 my-3" (click)=" SaveOrder();">SAVE</button>
+  <button class="btn btn-primary me-4 my-3" (click)=" ClearAllItem();">Clear</button>
+  <a class=" btn btn-primary me-4 my-3" href="DisplayPackingEntry">BACK</a>
+</div>
