@@ -1,88 +1,96 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 text-center ">
-            <p class="fw-bold mt-3">{{this.PageTitle.toUpperCase()}}</p>
-        </div>
+  <div class="row mt-2">
+    <div class="col-12 text-center mt-1" >
+      <h3>Packing Entry Details</h3>
     </div>
-    <div class="col-12">
+  </div>
+
+  <div class="row mt-1" >
+    <div class="col-6">
+      <button type="button" class="btn btn-sm btn-info"   *ngIf="isCreateProductEnabled "  [routerLink]="['/dashboard/PackingEntryComponent/0']">Create Entry</button>
+    </div>
+    <div class="col-6">
+      <div>
         <div class="row">
-            <div class="col-6">
-                Current Selected ID {{this.CurrentID}}
-            </div>
-            <div class="col-6">
-                <a class=" btn btn-primary mb-3" href="AddPackingEntry">Add</a>
-            </div>
+          <label class="col-sm-2 col-form-label">Search</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText" (input)="search()">
+          </div>
         </div>
+      </div>
     </div>
-<div class="table-responsive">
-<table class="table">
+  </div>
+
+  <!-- Table to display Packing Entries -->
+  <table class="table table-sm mt-1" *ngIf="paginatedList.length > 0">
     <thead>
-        <tr>
-            <th>Sr.No</th>
-            <th>OrderNumber</th>
-            <th>OrderDate</th>
-           <th>EmployeeName</th>
-            <th>Barcode</th>
-            <th>ProductDesc</th>
-            <th>Quantity</th>
-            <th>AcceptedQty</th>
-            <th>Action</th>
-        </tr>
+      <tr>
+        <th>ID</th>
+        <th>OrderNumber</th>
+        <th>Packing Code</th>
+        <th>Product Description</th>
+        <th>Order Date</th>
+        <th>Employee Name</th>
+        <th>Action</th>
+      </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let packing of this.packingDetails;let lblSrno=index">   
-            <td>
-                {{lblSrno + 1}}
-            </td>                
-            <td>
-                {{packing.OrderNumber}}
-            </td>
-            <td>
-                {{packing.OrderDate}}
-            </td>
-            <td>  
-                {{packing.EmployeeName}}
-          </td> 
-            <td>
-                {{packing.Barcode}}
-            </td>   
-             
-            <td>
-                {{packing.ProductDesc}}
-            </td>   
-            <td>
-                {{packing.Quantity}}
-            </td>  
-            <td>
-                {{packing.AcceptedQuantity}}
-            </td>  
-           <td>
-            <button class=" btn btn-primary me-2" (click)="EditClick(packing.OrderNumber);" data-bs-toggle="modal" data-bs-target="#exampleModalCenterTitle">EDIT</button>
+      <tr *ngFor="let obj of paginatedList; let i = index">
+        <td class="tbl2">{{ obj.ID }}</td>
+        <td class="tbl2">{{ obj.OrderNumber }}</td>
+        <td class="tbl2">{{ obj.PackingEntryCode }}</td>
+        <td class="tbl2">{{ obj.ProductDesc }}</td>
+        <td class="tbl2">{{ obj.OrderDate | date }}</td>
+        <td class="tbl2">{{ obj.EmployeeName }}</td>
+        <td class="tbl2">
+          <button type="button" class="btn btn-info" [routerLink]="['/dashboard/PackingEntryComponent/' + obj.ID]">Edit</button>
         </td>
-        </tr>
+      </tr>
     </tbody>
-</table>
-</div>
-</div>
+  </table>
 
-<!------------------------------------------- Modal ---------------------------------------->
+  <!-- Pagination Controls -->
+  <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="paginatedList.length > 0">
+    <!-- First Page Button -->
+    <span
+      (click)="goToFirstPage()"
+      [style.cursor]="currentPage === 1 ? 'not-allowed' : 'pointer'"
+      [style.color]="currentPage === 1 ? '#ccc' : '#000'"
+      style="font-size: 1.5rem;">
+      &#10094;&#10094; 
+    </span>
+  
+    <!-- Previous Button -->
+    <span
+      (click)="previousPage()"
+      [style.cursor]="currentPage === 1 ? 'not-allowed' : 'pointer'"
+      [style.color]="currentPage === 1 ? '#ccc' : '#000'"
+      style="font-size: 1.5rem;">
+      &#10094; Previous
+    </span>
+  
+    <!-- Page Indicator -->
+    <span style="font-size: 1rem;">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+  
+    <!-- Next Button -->
+    <span
+      (click)="nextPage()"
+      [style.cursor]="currentPage === totalPages ? 'not-allowed' : 'pointer'"
+      [style.color]="currentPage === totalPages ? '#ccc' : '#000'"
+      style="font-size: 1.5rem;">
+      Next &#10095;
+    </span>
+  
+    <!-- Last Page Button -->
+    <span
+      (click)="goToLastPage()"
+      [style.cursor]="currentPage === totalPages ? 'not-allowed' : 'pointer'"
+      [style.color]="currentPage === totalPages ? '#ccc' : '#000'"
+      style="font-size: 1.5rem;">
+       &#10095;&#10095;
+    </span>
+  </div>
 
-<div class="modal fade" id="exampleModalCenterTitle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" (click)="GetDataFromDatabase();" >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <app-add-packing-entry [EditID]="CurrentID"></app-add-packing-entry>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
 </div>
-
